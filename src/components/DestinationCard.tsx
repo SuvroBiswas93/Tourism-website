@@ -46,7 +46,7 @@ export default function DestinationCard({ destination }: Props) {
             onClick={() => navigate(`/booking/${destination.id}`)}
             className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
           >
-            Book NOW
+            Book Now
           </button>
         </div>
       </div>
