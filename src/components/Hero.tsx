@@ -95,13 +95,13 @@ export default function Hero() {
       {/* Navigation Buttons */}
       <button
         onClick={handlePrevSlide}
-        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/30 hover:bg-white/50 p-2 rounded-full backdrop-blur-sm transition-all z-10"
+        className="absolute left-4  bottom-6 md:w-10 md:h-10 md:top-1/2 transform md:-translate-y-1/2 bg-white/30 hover:bg-white/50 p-2 rounded-full backdrop-blur-sm transition-all z-10"
       >
         <ChevronLeft className="h-6 w-6 text-white" />
       </button>
       <button
         onClick={handleNextSlide}
-        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/30 hover:bg-white/50 p-2 rounded-full backdrop-blur-sm transition-all z-10"
+        className="absolute right-4   bottom-6 md:w-10 md:h-10 md:top-1/2 transform md:-translate-y-1/2 bg-white/30 hover:bg-white/50 p-2 rounded-full backdrop-blur-sm transition-all z-10"
       >
         <ChevronRight className="h-6 w-6 text-white" />
       </button>
@@ -122,10 +122,10 @@ export default function Hero() {
       {/* Content */}
       <div className="relative h-full flex items-center justify-center">
         <div className="text-center text-white px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-4 animate-fade-in">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-4   animate-backInUp">
             {slides[currentSlide].title}
           </h1>
-          <p className="text-xl sm:text-2xl mb-8 max-w-3xl mx-auto animate-fade-in">
+          <p className="text-xl sm:text-2xl mb-8 max-w-3xl mx-auto animate-pulse">
             {slides[currentSlide].subtitle}
           </p>
           

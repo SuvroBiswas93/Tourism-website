@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Mail, User, MessageSquare, Send } from 'lucide-react';
 import * as yup from 'yup';
 import emailjs from '@emailjs/browser';
+import { sendMail } from '../api/mail';
 
 interface FormData {
   name: string;
@@ -52,24 +53,13 @@ export default function ContactForm() {
 
     try {
       await schema.validate(formData, { abortEarly: false });
-      
-      const result = await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        {
-          to_email: 'codersync9@gmail.com',
-          from_name: formData.name,
-          from_email: formData.email,
-          message: formData.message,
-        },
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-      );
-
-      if (result.status === 200) {
-        setStatus('success');
+      const response = await sendMail({...formData});
+      const {success} = response;
+      if( success ) {
         setFormData({ name: '', email: '', message: '' });
+        setStatus("success");
         setTimeout(() => setStatus('idle'), 3000);
-      } else {
+      }  else {
         throw new Error('Failed to send message');
       }
     } catch (error) {
@@ -83,14 +73,16 @@ export default function ContactForm() {
         setErrors(newErrors);
       }
       setStatus('error');
+      setErrors({root: error?.message});
       setTimeout(() => setStatus('idle'), 3000);
     }
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-8">
+    <div style= {{
+      animationIterationCount: 1
+    }} className="bg-white rounded-lg shadow-lg p-8  md:animate-fadeInLeft  delay-0  duration-75  max-h-max">
       <h2 className="text-2xl font-bold mb-6">Send us a Message</h2>
-      
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">

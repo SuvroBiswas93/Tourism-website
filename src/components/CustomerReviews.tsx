@@ -107,7 +107,7 @@ export default function CustomerReviews() {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-8">
+    <div className="bg-white rounded-lg shadow-lg p-8 overflow-y-hidden md:animate-fadeInDown">
       <h2 className="text-2xl font-bold mb-8">Customer Reviews</h2>
 
       {/* Review Form */}

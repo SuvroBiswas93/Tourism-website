@@ -65,7 +65,7 @@ export default function SustainabilityTracker() {
               <button
                 key={mode}
                 onClick={() => setSelectedMode(mode as keyof TransportEmissions)}
-                className={`p-4 rounded-lg border ${
+                className={`transition ease-in-out delay-75 hover:-translate-y-1 hover:scale-110 duration-200 p-4 rounded-lg border ${
                   selectedMode === mode
                     ? 'border-green-500 bg-green-50'
                     : 'border-gray-200 hover:border-green-500'

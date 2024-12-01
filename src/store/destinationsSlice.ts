@@ -67,7 +67,7 @@ const initialState: DestinationsState = {
       id: '7',
       name: 'Amalfi Coast Villa',
       description: 'Cliffside villa with terraced gardens, infinity pool, and stunning views of the Mediterranean Sea.',
-      image: 'https://images.unsplash.com/photo-1633527815600-59575c3c7652?auto=format&fit=crop&q=80&w=2000',
+      image: 'https://cdn.lecollectionist.com/__collectionist__/production/uploads/photos/41071/84ea8690-8a8b-4ad2-ae38-6f9f08ea9f53.jpg?width=1984&q=65',
       rating: 4.8,
       price: 459,
       location: 'Amalfi, Italy'

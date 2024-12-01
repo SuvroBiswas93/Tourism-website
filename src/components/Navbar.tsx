@@ -1,11 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Compass, Menu, X, Sun, Moon } from 'lucide-react';
 import { useTheme } from '../hooks/useTheme';
+import { setUser, startLoading, } from '../store/authentication.slice';
+import { useDispatch, useSelector } from 'react-redux';
+import { checkLogged, SignIn, SignOut } from '../services/auth.firebase';
+import { RootState } from '../store';
 
+const UserIcon = ()=> (<>
+  {/*?xml version="1.0" ?*/}
+  <svg style={{height:20, width:20}} viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+    <title />
+    <g data-name="Layer 7" id="Layer_7">
+      <path
+        className=" fill-primary-700 dark:fill-white"
+        d="M19.75,15.67a6,6,0,1,0-7.51,0A11,11,0,0,0,5,26v1H27V26A11,11,0,0,0,19.75,15.67ZM12,11a4,4,0,1,1,4,4A4,4,0,0,1,12,11ZM7.06,25a9,9,0,0,1,17.89,0Z"
+      />
+    </g>
+  </svg>
+</>)
 export default function Navbar() {
   const [isOpen, setIsOpen] = React.useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
 
@@ -15,7 +32,36 @@ export default function Navbar() {
   };
 
   const isActive = (path: string) => location.pathname === path;
+  const dispatchCallback = (payload) => {
+    dispatch(setUser(payload));
+  };
+  const signIn = () => {
+    dispatch(startLoading());
+    SignIn(dispatchCallback);
+    // navigate("/");
+  };
 
+  const { logged, loading, user } = useSelector(
+    (state:RootState) => state?.authentication
+  );
+
+  useEffect(() => {
+    const dispatchCallback = (user) => {
+      dispatch(setUser({ user: user, error: null }));
+    };
+    try {
+      checkLogged(dispatchCallback);
+    } catch(e) {
+      console.error(e);
+    }
+  }, [dispatch]);
+
+  const signOut = () => {
+    dispatch(startLoading());
+    SignOut((user) => {
+      dispatch(setUser({user}));
+    });
+  };
   return (
     <nav className={`${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'} shadow-lg fixed w-full z-50 transition-colors duration-300`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -81,6 +127,7 @@ export default function Navbar() {
                 } transition-transform duration-300`} />
               )}
             </Link>
+            
             <button
               onClick={toggleTheme}
               className={`p-2 rounded-lg ${
@@ -94,15 +141,19 @@ export default function Navbar() {
                 <Moon className="h-5 w-5" />
               )}
             </button>
+            {user? <div className='gap-1 flex justify-center items-center'>
+              <UserIcon/>
+              <span className='max-w-32 overflow-hidden text-nowrap' >{user.displayName}</span>
+            </div>: null}
             <button 
-              onClick={handleBookNow}
+              onClick={user? signOut: signIn}
               className={`${
                 theme === 'dark' 
                   ? 'bg-blue-500 hover:bg-blue-600' 
                   : 'bg-blue-600 hover:bg-blue-700'
               } text-white px-4 py-2 rounded-lg transition-colors`}
             >
-              Book Now
+              {user? "Signout": "Login"}
             </button>
           </div>
 
@@ -181,13 +232,17 @@ export default function Navbar() {
             >
               Contact
             </Link>
+            {user? <div className='gap-1 flex justify-start items-center'>
+              <UserIcon/>
+              <span className='max-w-32 overflow-hidden text-nowrap text-sm' >{user.displayName}</span>
+            </div>: null}
             <button
-              onClick={handleBookNow}
+              onClick={user? signOut: signIn}
               className={`w-full text-left px-3 py-2 ${
                 theme === 'dark' ? 'text-blue-400' : 'text-blue-600'
               } font-medium hover:bg-gray-50 rounded-md`}
             >
-              Book Now
+              {user? "Signout": "Login"}
             </button>
           </div>
         </div>

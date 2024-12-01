@@ -35,7 +35,7 @@ export default function About() {
               description: 'Competitive rates guaranteed',
             },
           ].map((feature, index) => (
-            <div key={index} className="text-center p-6 bg-white rounded-lg shadow-md">
+            <div key={index} className=" animate-fadeInLeft transition ease-in-out delay-75 hover:-translate-y-1 hover:scale-110 duration-200 text-center p-6 bg-white rounded-lg shadow-md">
               <feature.icon className="h-12 w-12 text-blue-600 mx-auto mb-4" />
               <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
               <p className="text-gray-600">{feature.description}</p>
